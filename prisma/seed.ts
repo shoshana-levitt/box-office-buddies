@@ -13,7 +13,7 @@ async function main() {
   const shows = [
     {
       showName: "Hamilton",
-      showImageUrl: "https://example.com/hamilton.jpg",
+      showImageUrl: "url",
       format: "musical",
       tier: "broadway",
       locationName: "Richard Rodgers Theatre",
@@ -23,7 +23,7 @@ async function main() {
     },
     {
       showName: "Wicked",
-      showImageUrl: "https://example.com/wicked.jpg",
+      showImageUrl: "url",
       format: "musical",
       tier: "broadway",
       locationName: "Gershwin Theatre",
