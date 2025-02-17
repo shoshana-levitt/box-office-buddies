@@ -1,0 +1,76 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // You can change this to your preferred database
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                Int                   @id @default(autoincrement())
+  username         String                @unique
+  firstName        String
+  lastName         String
+  profilePictureUrl String?              @map("profile_picture_url")
+  role             String
+  createdAt        DateTime              @default(now()) @map("created_at")
+
+  // Relationships
+  following        Follow[]              @relation("FollowingUser")
+  followers        Follow[]              @relation("FollowedUser")
+  showPreferences  UserShowPreference[]
+
+  @@map("users")
+}
+
+model Follow {
+  followingUserId  Int      @map("following_user_id")
+  followedUserId   Int      @map("followed_user_id")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  // Relationships
+  followingUser    User     @relation("FollowingUser", fields: [followingUserId], references: [id])
+  followedUser     User     @relation("FollowedUser", fields: [followedUserId], references: [id])
+
+  @@id([followingUserId, followedUserId])
+  @@map("follows")
+}
+
+model Show {
+  id                Int                   @id @default(autoincrement()) @map("show_id")
+  showName          String                @map("show_name")
+  showImageUrl      String?               @map("show_image_url")
+  format            String                // play or musical
+  tier              String                // broadway, off-broadway
+  locationName      String                @map("location_name")
+  locationAddress   String                @map("location_address")
+  isCurrentlyRunning Boolean              @map("is_currently_running")
+  closingDate       DateTime?             @map("closing_date")
+  hasInPersonRush   Boolean               @map("has_in_person_rush")
+
+  // Relationships
+  userPreferences   UserShowPreference[]
+
+  @@map("shows")
+}
+
+model UserShowPreference {
+  id                 Int       @id @default(autoincrement())
+  userId             Int       @map("user_id")
+  showId             Int       @map("show_id")
+  hasSeen            Boolean   @default(false) @map("has_seen")
+  interestLevel      String    @default("none") @map("interest_level")
+  budget             Int?
+  preferredCastMembers String? @map("preferred_cast_members")
+  createdAt          DateTime  @default(now()) @map("created_at")
+
+  // Relationships
+  user               User      @relation(fields: [userId], references: [id])
+  show               Show      @relation(fields: [showId], references: [id])
+
+  @@map("user_show_preferences")
+}
