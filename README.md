@@ -1,6 +1,12 @@
 ## Getting Started
 
-First, run the development server:
+Run the database seed:
+
+```bash
+npx prisma db seed
+```
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -10,10 +16,4 @@ yarn dev
 pnpm dev
 # or
 bun dev
-```
-
-Run the database seed:
-
-```bash
-npx prisma db seed
 ```
