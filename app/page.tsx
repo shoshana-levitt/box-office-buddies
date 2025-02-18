@@ -1,3 +1,9 @@
+import AllShowCards from "@/components/AllShowCards";
+
 export default function Home() {
-  return <div></div>;
+  return (
+    <div>
+      <AllShowCards />
+    </div>
+  );
 }
